@@ -11,8 +11,10 @@ export const msalConfig: Configuration = {
     authority: 'https://login.microsoftonline.com/2de9b431-7882-473d-9a40-8cb84c068099',
     // redirectUri: 'http://localhost:4200',
     // postLogoutRedirectUri: 'http://localhost:4200/login'
-    redirectUri: window.location.origin, // Dynamic - uses current origin
-    postLogoutRedirectUri: window.location.origin + '/login'
+    // redirectUri: window.location.origin, // Dynamic - uses current origin
+    // postLogoutRedirectUri: window.location.origin + '/login'
+    redirectUri: 'https://mdukhathi.github.io/AngTradeClient/', 
+    postLogoutRedirectUri: 'https://mdukhathi.github.io/AngTradeClient/login'
   },
   cache: {
     cacheLocation: BrowserCacheLocation.LocalStorage,
