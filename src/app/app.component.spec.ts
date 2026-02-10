@@ -1,9 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { MsalService } from '@azure/msal-angular';
+import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
 
 class MockMsalService {}
+class MockMsalBroadcastService {}
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,7 +12,8 @@ describe('AppComponent', () => {
       imports: [RouterTestingModule],
       declarations: [AppComponent],
       providers: [
-        { provide: MsalService, useClass: MockMsalService }
+        { provide: MsalService, useClass: MockMsalService },
+        { provide: MsalBroadcastService, useClass: MockMsalBroadcastService }
       ]
     }).compileComponents();
   });
