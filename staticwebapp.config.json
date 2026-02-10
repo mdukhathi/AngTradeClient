@@ -1,11 +1,12 @@
 {
   "auth": {
-    "identityProviders": {
-      "github": {
-        "registration": {
-          "enabled": false
+    "login": {
+      "routes": [
+        {
+          "route": "/*",
+          "roles": ["anonymous"]
         }
-      }
+      ]
     }
   },
   "routes": [
