@@ -29,6 +29,9 @@ jobs:
 
       - name: Build Angular app
         run: npm run build -- --configuration production
+      - name: Copy index.html to 404.html
+        run: cp dist/ang-trade-client/index.html dist/ang-trade-client/404.html
+
 
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@v4
