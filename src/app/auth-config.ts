@@ -13,7 +13,8 @@ export const msalConfig: Configuration = {
     // postLogoutRedirectUri: 'http://localhost:4200/login'
     // redirectUri: window.location.origin, // Dynamic - uses current origin
     // postLogoutRedirectUri: window.location.origin + '/login'
-    redirectUri: 'https://mdukhathi.github.io/AngTradeClient/', 
+   // redirectUri: 'https://mdukhathi.github.io/AngTradeClient/', 
+   redirectUri: 'https://lively-meadow-02e026f10.4.azurestaticapps.net',
     postLogoutRedirectUri: 'https://mdukhathi.github.io/AngTradeClient/login'
   },
   cache: {
