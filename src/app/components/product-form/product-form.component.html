@@ -1,0 +1,147 @@
+<div class="container mt-4">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading product data...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button class="btn btn-sm btn-outline-danger ms-2" (click)="goBack()">Go Back</button>
+  </div>
+
+  <!-- Form -->
+  <div *ngIf="!isLoading" class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h4 class="mb-0">
+        <i class="fas {{ isEditMode ? 'fa-edit' : 'fa-plus-circle' }} me-2"></i>
+        {{ isEditMode ? 'Edit Product' : 'Create New Product' }}
+      </h4>
+    </div>
+    
+    <div class="card-body">
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" novalidate>
+        
+        <!-- Name Field -->
+        <div class="mb-3">
+          <label for="name" class="form-label">
+            <i class="fas fa-tag me-1"></i>Product Name *
+          </label>
+          <input type="text" 
+                 class="form-control" 
+                 id="name" 
+                 formControlName="name"
+                 [class.is-invalid]="name?.invalid && (name?.dirty || name?.touched)"
+                 placeholder="Enter product name">
+          <div *ngIf="name?.invalid && (name?.dirty || name?.touched)" class="invalid-feedback">
+            <div *ngIf="name?.errors?.['required']">Product name is required</div>
+            <div *ngIf="name?.errors?.['minlength']">Name must be at least 3 characters</div>
+            <div *ngIf="name?.errors?.['maxlength']">Name cannot exceed 100 characters</div>
+          </div>
+        </div>
+
+        <!-- Description Field -->
+        <div class="mb-3">
+          <label for="description" class="form-label">
+            <i class="fas fa-align-left me-1"></i>Description
+          </label>
+          <textarea class="form-control" 
+                    id="description" 
+                    formControlName="description"
+                    [class.is-invalid]="description?.invalid && (description?.dirty || description?.touched)"
+                    rows="3"
+                    placeholder="Enter product description (optional)"></textarea>
+          <div *ngIf="description?.invalid && (description?.dirty || description?.touched)" class="invalid-feedback">
+            Description cannot exceed 500 characters
+          </div>
+        </div>
+
+        <!-- Price Field -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="price" class="form-label">
+              <i class="fas fa-dollar-sign me-1"></i>Price *
+            </label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input type="number" 
+                     class="form-control" 
+                     id="price" 
+                     formControlName="price"
+                     [class.is-invalid]="price?.invalid && (price?.dirty || price?.touched)"
+                     step="0.01"
+                     min="0.01"
+                     placeholder="0.00">
+            </div>
+            <div *ngIf="price?.invalid && (price?.dirty || price?.touched)" class="invalid-feedback d-block">
+              <div *ngIf="price?.errors?.['required']">Price is required</div>
+              <div *ngIf="price?.errors?.['min']">Price must be greater than 0</div>
+            </div>
+          </div>
+
+          <!-- Stock Quantity Field -->
+          <div class="col-md-6 mb-3">
+            <label for="stockQuantity" class="form-label">
+              <i class="fas fa-boxes me-1"></i>Stock Quantity *
+            </label>
+            <input type="number" 
+                   class="form-control" 
+                   id="stockQuantity" 
+                   formControlName="stockQuantity"
+                   [class.is-invalid]="stockQuantity?.invalid && (stockQuantity?.dirty || stockQuantity?.touched)"
+                   min="0"
+                   placeholder="0">
+            <div *ngIf="stockQuantity?.invalid && (stockQuantity?.dirty || stockQuantity?.touched)" class="invalid-feedback d-block">
+              <div *ngIf="stockQuantity?.errors?.['required']">Stock quantity is required</div>
+              <div *ngIf="stockQuantity?.errors?.['min']">Stock cannot be negative</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category ID Field -->
+        <div class="mb-4">
+          <label for="categoryId" class="form-label">
+            <i class="fas fa-folder me-1"></i>Category ID *
+          </label>
+          <input type="number" 
+                 class="form-control" 
+                 id="categoryId" 
+                 formControlName="categoryId"
+                 [class.is-invalid]="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)"
+                 min="1"
+                 placeholder="Enter category ID">
+          <small class="form-text text-muted">Enter the numeric category identifier</small>
+          <div *ngIf="categoryId?.invalid && (categoryId?.dirty || categoryId?.touched)" class="invalid-feedback d-block">
+            <div *ngIf="categoryId?.errors?.['required']">Category ID is required</div>
+            <div *ngIf="categoryId?.errors?.['min']">Category ID must be at least 1</div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-secondary" (click)="goBack()">
+            <i class="fas fa-arrow-left me-2"></i>Cancel
+          </button>
+          
+          <button type="submit" 
+                  class="btn btn-primary" 
+                  [disabled]="productForm.invalid || isSubmitting">
+            <span *ngIf="!isSubmitting">
+              <i class="fas {{ isEditMode ? 'fa-save' : 'fa-check' }} me-2"></i>
+              {{ isEditMode ? 'Update Product' : 'Create Product' }}
+            </span>
+            <span *ngIf="isSubmitting">
+              <div class="spinner-border spinner-border-sm me-2" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              {{ isEditMode ? 'Updating...' : 'Creating...' }}
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

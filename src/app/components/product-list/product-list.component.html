@@ -1,0 +1,92 @@
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>
+      <i class="fas fa-boxes me-2"></i>Products
+    </h2>
+    <div>
+      <button class="btn btn-primary" routerLink="/products/create">
+        <i class="fas fa-plus me-2"></i>Add New Product
+      </button>
+      <button class="btn btn-outline-secondary ms-2" (click)="loadProducts()">
+        <i class="fas fa-sync-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading products...</p>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="!isLoading && errorMessage" class="alert alert-danger" role="alert">
+    {{ errorMessage }}
+    <button class="btn btn-sm btn-outline-danger ms-2" (click)="loadProducts()">Retry</button>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading && !errorMessage && products.length === 0" class="text-center py-5">
+    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+    <h4>No products found</h4>
+    <p class="text-muted">Start by adding your first product</p>
+    <button class="btn btn-primary" routerLink="/products/create">Add Product</button>
+  </div>
+
+  <!-- Products Table -->
+  <div *ngIf="!isLoading && !errorMessage && products.length > 0" class="table-responsive">
+    <table class="table table-hover table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Category</th>
+          <th>Created</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.productId }}</td>
+          <td>
+            <strong>{{ product.name }}</strong>
+          </td>
+          <td>
+            <small class="text-muted">{{ product.description || 'No description' }}</small>
+          </td>
+          <td>
+            <span class="badge bg-success">{{ formatPrice(product.price) }}</span>
+          </td>
+          <td>
+            <span [class]="product.stockQuantity <= 5 ? 'badge bg-danger' : 'badge bg-info'">
+              {{ product.stockQuantity }}
+            </span>
+          </td>
+          <td>
+            <span class="badge bg-secondary">#{{ product.categoryId }}</span>
+          </td>
+          <td>
+            <small>{{ formatDate(product.createdAt) }}</small>
+            <br>
+            <small class="text-muted">by {{ product.createdBy }}</small>
+          </td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <button class="btn btn-outline-info" [routerLink]="['/products/edit', product.productId]">
+                <i class="fas fa-edit"></i> Edit
+              </button>
+              <button class="btn btn-outline-danger ms-1" (click)="deleteProduct(product.productId)">
+                <i class="fas fa-trash"></i> Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
