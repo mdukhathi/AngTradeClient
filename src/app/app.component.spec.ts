@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { MsalService, MsalBroadcastService } from '@azure/msal-angular';
 
-class MockMsalService {}
+class MockMsalService { instance = { getAllAccounts: () => [] }; }
 class MockMsalBroadcastService {}
 
 describe('AppComponent', () => {
@@ -24,10 +24,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'ang-trade-client'`, () => {
+  it(`should have as title 'AngTradeClient'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ang-trade-client');
+    expect(app.title).toEqual('AngTradeClient');
   });
 
   it('should render title', () => {
